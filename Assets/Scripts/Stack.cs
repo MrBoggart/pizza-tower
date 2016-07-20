@@ -4,15 +4,18 @@ using System.Collections.Generic;
 
 public class Stack : MonoBehaviour {
 
+	public Gameplay GP;
 	public GameObject pizzaBoxPrefab;
 
 	List<PizzaBox> stack = new List<PizzaBox>();
 
 	void Awake()
 	{
+		/*
 		foreach (Transform pb in transform) {
 			stack.Add (pb.GetComponent<PizzaBox> ());
 		}
+		*/
 	}
 
 	void Update()
@@ -24,23 +27,23 @@ public class Stack : MonoBehaviour {
 
 	public void SelectRandom()
 	{
-		PizzaBox selected1;
-		PizzaBox selected2;
+		Transform selected1;
+		Transform selected2;
 
 		int selectedIndex1;
 
 		SetAllUnselected ();
 
-		selectedIndex1 = Random.Range (0, stack.Count - 1);
+		selectedIndex1 = Random.Range (0, transform.childCount - 1);
 
-		selected1 = stack [selectedIndex1];
-		Debug.Log (selected1.transform.GetSiblingIndex());
+		selected1 = transform.GetChild(selectedIndex1);
+		Debug.Log ("Selected1: " + selected1.GetSiblingIndex());
 
-		selected2 = stack[selectedIndex1 + 1];
-		Debug.Log (selected2.transform.GetSiblingIndex());
+		selected2 = transform.GetChild(selectedIndex1 + 1);
+		Debug.Log ("Selected2: " + selected2.GetSiblingIndex());
 
-		selected1.Selected ();
-		selected2.Selected ();
+		selected1.GetComponent<PizzaBox>().Selected ();
+		selected2.GetComponent<PizzaBox>().Selected ();
 
 	}
 
@@ -52,9 +55,11 @@ public class Stack : MonoBehaviour {
 
 		newBox.GetComponent<Renderer> ().material.color = Color.blue;
 
-		stack.Clear ();
+		GP.LevelUp ();
 
-		ReGetInstances ();
+		//stack.Clear ();
+
+		//ReGetInstances ();
 
 	}
 
